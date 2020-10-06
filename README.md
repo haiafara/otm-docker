@@ -86,7 +86,7 @@ The files should be in HGT format compressed as **ZIP** files. The files will be
 
 Make sure the SRTM data covers the region you chose in step 2.
 
-Easiest way: For worldwide SRTM data use:
+Easiest way: For mid south europe SRTM data use:
 
 ```
 http://viewfinderpanoramas.org/dem3/M31.zip
@@ -96,6 +96,7 @@ http://viewfinderpanoramas.org/dem3/L31.zip
 http://viewfinderpanoramas.org/dem3/L32.zip
 ```
 
+For world use the file get_global_hgt.sh
 
 ### Step 4: Check your data & start the container!
 
@@ -135,7 +136,7 @@ with `exit`. If you come back later and login to your container again, you acces
 
 Make some adjustments to the scripts depending on your available memory:
 
-* /scripts/import_osm_data.sh: Change `MEMORY=12000` to the MBs of memory you have available inside the Docker session
+* /scripts/02_import_osm_data.sh: Change `MEMORY=12000` to the MBs of memory you have available inside the Docker session
 
 
 Execute the following scripts in the given order:
@@ -162,8 +163,8 @@ memory fault when executing, then try it with lower resolution or on a box with 
 Once everything has run through, you log out and restart your container:
 
 ```
-docker-compose down
-docker-compose up -d
+docker-compose stop
+docker-compose start -d
 ```
 
 
