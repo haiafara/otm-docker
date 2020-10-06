@@ -22,21 +22,20 @@ RUN apt-get update && \
     libmapnik3.0 \
     libmapnik-dev \
     mapnik-utils \
-    python-mapnik python3-mapnik \
+    python3-mapnik \
     unifont \
     letsencrypt \
     wget \
     python3-certbot \
     python3-certbot-apache \
     openssh-server \
-    postgresql postgresql-10-postgis-2.4 \
+    postgresql postgresql-12-postgis-3 postgresql-12-postgis-3-scripts \
     apache2 autoconf apache2-dev \
     cmake libbz2-dev libgeos-dev libpq-dev libproj-dev lua5.3 liblua5.3-dev \
     rsyslog nano \
     gdal-bin \
-    python-gdal \
     screen \
-    python-setuptools python3-matplotlib python-beautifulsoup python3-numpy python3-bs4 python3-gdal python-gdal
+    python-setuptools python3-matplotlib python3-numpy python3-bs4 python3-gdal
 
 # install locale so that postgres db is created with utf-8
 RUN apt-get install --yes locales && \
@@ -49,14 +48,14 @@ RUN apt-get install --yes locales && \
 # install tirex
 RUN git clone https://github.com/geofabrik/tirex /home/tirex && \
     cd /home/tirex && make && make deb && cd /home && \
-    dpkg -i tirex-core_0.6.1_amd64.deb && \
-    dpkg -i tirex-backend-mapnik_0.6.1_amd64.deb && \
-    dpkg -i tirex-syncd_0.6.1_amd64.deb
+    dpkg -i tirex-core_*.deb && \
+    dpkg -i tirex-backend-mapnik_*.deb && \
+    dpkg -i tirex-syncd_*.deb
 
 # install apache & mod_tile
 RUN git clone git://github.com/openstreetmap/mod_tile.git /home/mod_tile && \
     cd /home/mod_tile && echo '/etc/renderd.conf' > debian/renderd.conffiles && debuild -i -b -us -uc && \
-    dpkg -i /home/libapache2-mod-tile_0.4-12~precise2_amd64.deb && \
+    dpkg -i /home/libapache2-mod-tile_*.deb && \
     mkdir /mnt/tiles && rm -rf /var/lib/tirex/tiles && rm -rf /var/lib/mod_tile && ln -s /mnt/tiles /var/lib/tirex/tiles && ln -s /mnt/tiles /var/lib/mod_tile
 
 # install stuff for letsencrypt
@@ -73,7 +72,7 @@ RUN	mkdir ~/osm2pgsql && cd ~/osm2pgsql && \
 	rm -rf osm2pgsql
 
 
-RUN dpkg -i /home/tirex-example-map_0.6.1_amd64.deb
+RUN dpkg -i /home/tirex-example-map_*.deb
 
 # install phyghtmap
 RUN wget http://katze.tfiu.de/projects/phyghtmap/phyghtmap_2.21-1_all.deb && \
