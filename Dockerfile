@@ -34,6 +34,7 @@ RUN apt-get update && \
     cmake libbz2-dev libgeos-dev libpq-dev libproj-dev lua5.3 liblua5.3-dev \
     rsyslog nano \
     gdal-bin \
+    python-gdal \
     screen \
     python-setuptools python3-matplotlib python-beautifulsoup python3-numpy python3-bs4 python3-gdal python-gdal
 
