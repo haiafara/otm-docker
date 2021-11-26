@@ -44,7 +44,7 @@ in this repository.
 Create the directory `data` inside your project directory with these subdirectories:
 
 ```
-mkdir -p data/data
+mkdir -p data/data/srtm
 mkdir -p data/db
 mkdir -p data/letsencrypt
 ```
