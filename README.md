@@ -73,7 +73,7 @@ The script expects the data to have this name.
 
 ### Step 3: Download elevation data
 
-Download some elevation data files and put the into the local directory `data/data/srtm`. You have to create the `srtm` directory.
+Download some elevation data files and put the into the local directory `data/data/srtm`.
 
 Here are some locations for elevation data:
 
