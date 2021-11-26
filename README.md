@@ -38,8 +38,7 @@ You can choose which part of the world you want to cover. Everything is possible
 
 ### Step 1: Prepare your server
 
-Create a directory and put the `docker-compose.yml` file into it. This file is a copy of the `docker-compose.yml.dist` file
-in this repository.
+Create a directory and put the `docker-compose.yml` file into it. This file is a copy of the `docker-compose.yml.dist` file in this repository.
 
 Create the directory `data` inside your project directory with these subdirectories:
 
@@ -57,18 +56,14 @@ Then edit your `docker-compose.yml` and change the following variables:
 - WHITELIST=127.0.0.1: You can add an IP here that will not be affected by the mod_file throtteling.
 
 
-This image will expose the HTTP ports 80 and 443 to the outside. Make sure they're not used by some other services
-on your server. If you want to host the OTM server on a different port, change the outside port section, e.g. change
-"80:80" to "8080:80" - then your server will be available on port 8080 from the outside world.
+This image will expose the HTTP ports 80 and 443 to the outside. Make sure they're not used by some other services on your server. If you want to host the OTM server on a different port, change the outside port section, e.g. change "80:80" to "8080:80" - then your server will be available on port 8080 from the outside world.
 
 
 ### Step 2: Choose and download OSM data
 
-You need a **PBF** file of your favourite region. This can be the full 48 GB planet file (https://planet.openstreetmap.org) or
-some regional extract. You can find a good list of servers in: https://wiki.openstreetmap.org/wiki/Planet.osm
+You need a **PBF** file of your favourite region. This can be the full 48 GB planet file or some regional extract. You can find a good list of servers in: https://wiki.openstreetmap.org/wiki/Planet.osm
 
-Download your PBF file and put it into your project `data/data` directory with the name `osmdata.pbf`.
-The script expects the data to have this name.
+Download your PBF file and put it into your project `data/data` directory with the name `osmdata.pbf`. The script expects the data to have this name.
 
 
 ### Step 3: Download elevation data
@@ -117,8 +112,7 @@ Then start the thing:
 
 Check output with `docker logs otm-docker -f`
 
-This will create your postgres database and start some services. 
-They won't really come up, but the container should be running.
+This will create your postgres database and start some services. They won't really come up, but the container should be running.
 
 
 ### Step 5: Enter the container and start some scripts
@@ -131,13 +125,11 @@ Inside start a `screen` session. Then you can start the long running scripts and
 
 `screen`
 
-Once you've started some scripts, press `CTRL+a d` to detach from the screen session. Then logout of your container
-with `exit`. If you come back later and login to your container again, you access the session with `screen -r`.
+Once you've started some scripts, press `CTRL+a d` to detach from the screen session. Then logout of your container with `exit`. If you come back later and login to your container again, you access the session with `screen -r`.
 
 Make some adjustments to the scripts depending on your available memory:
 
 * /scripts/02_import_osm_data.sh: Change `MEMORY=12000` to the MBs of memory you have available inside the Docker session
-
 
 Execute the following scripts in the given order:
 
@@ -154,8 +146,7 @@ sh 06_dem_contours2.sh
 
 Step 2 (import OSM data) takes the most time, depending on the size of your PBF file. A full planet can even take DAYS to import.
 
-Step 5 (generating the contours data) can also take a long time and needs a lot of RAM, min. 16 GB for the world SRTM. If you get a 
-memory fault when executing, then try it with lower resolution or on a box with more RAM.
+Step 5 (generating the contours data) can also take a long time and needs a lot of RAM, min. 16 GB for the world SRTM. If you get a memory fault when executing, then try it with lower resolution or on a box with more RAM.
 
 
 ### Step 6: Almost done...
@@ -177,14 +168,11 @@ The tile layer is available with the following URL `http://your-server/otm/{z}/{
 
 ### Optional stuff
 
-Rendering your tiles on demand usually takes too much time. It's better to pre-render them in the background. You can do that with Tirex.
-To render e.g. all tiles in Switzerland for zoom levels 1-16, this command can be used:
+Rendering your tiles on demand usually takes too much time. It's better to pre-render them in the background. You can do that with Tirex. To render e.g. all tiles in Switzerland for zoom levels 1-16, this command can be used:
 
 `tirex-batch -p 5 -d map=opentopomap bbox=6.0,45.78,10.44,47.83 z=1-16`
 
-
-mod_tile considers a tile as "old" if it's older than 3 days and triggers a re-render.
-If you want to prevent all re-renders and manually re-render the tiles by controlling Tirex, you can start the container with the following env var:
+mod_tile considers a tile as "old" if it's older than 3 days and triggers a re-render. If you want to prevent all re-renders and manually re-render the tiles by controlling Tirex, you can start the container with the following env var:
 
 `MOD_TILE_PREVENT_EXPIRATION=1`
  
